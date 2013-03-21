@@ -86,6 +86,15 @@ set incsearch
 set ignorecase
 set smartcase
 
+" turn off wrap
+set nowrap
+
+" clear currently highlighted items easily
+nmap <silent> <leader>n :set invhls<CR>:set hls?<CR>
+
+" Toggle back and forth to last open file / position (might use LEADER LEADER for easy motion instead)
+" TODO
+
 
 " Dependencies
 "-----------------------------------------------------------------------------
