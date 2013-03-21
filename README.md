@@ -6,7 +6,7 @@ and create a link to the vimrc
 
 on windows
 
-    $ mklink ~/_vimrc ~/.vim/vimrc
+    $ mklink "%HOME%\_vimrc" "%HOME%\.vim\vimrc"
 
 on unix
 
