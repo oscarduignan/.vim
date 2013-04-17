@@ -1,4 +1,4 @@
-set nocompatible
+set nocompatible 
 
 " easier leader, default is \
 let mapleader=","
@@ -92,6 +92,31 @@ set nowrap
 " clear currently highlighted items easily
 nmap <silent> <leader>n :set invhls<CR>:set hls?<CR>
 
+" Make command completion better
+set wildmode=longest,list,full
+set wildmenu
+
+" Toggle view of list characters
+set nolist
+set listchars=tab:\ ·,eol:¬
+set listchars+=trail:·
+set listchars+=extends:»,precedes:«
+map <silent> <F12> :set invlist<CR>
+
+" Easy editing of vimrc
+nnoremap <leader>re :e ~/.vim/vimrc<CR>
+
+" Emacs style saving in vim
+noremap <C-x><C-s> :update<CR>
+vnoremap <C-x><C-s> <C-C>:update<CR>
+inoremap <C-x><C-s> <C-O>:update<CR>
+
+" Quickly turn on linewrapping (http://vimcasts.org/episodes/soft-wrapping-text/)
+command! -nargs=* Wrap set wrap linebreak nolist
+            
+" Easier new tabs
+nnoremap <C-n> :tabnew<CR>
+
 " Toggle back and forth to last open file / position (might use LEADER LEADER for easy motion instead)
 " TODO
 
@@ -127,13 +152,41 @@ inoremap <leader>o <C-O>:ZoomWin<CR>
 
 " ack
 
-" ctrlp
+Bundle 'kien/ctrlp.vim'
+let g:ctrlp_max_height = 30
+let g:ctrlp_match_window_bottom=1
+let g:ctrlp_max_height = 20
+let g:ctrlp_match_window_reversed = 1
+let g:ctrlp_switch_buffer = 'e'
+" <f5> clear cache
+" <c-f> <c-b> change mode (mru, buffers, files)
+" <c-d> toggle filename / path matching
+" <c-y> create file
+" <c-z> to mark files and <c-o> to open them
+" <Enter> to MRU in normal mode
 
-" nerdtree
+" Better file explorer
+Bundle 'scrooloose/nerdtree'
+" Allows you to type `rs` on a node to start serving railo from that directory
+Bundle 'oscarduignan/vim-nerdtree-serve-railo'
+let NERDTreeQuitOnOpen=1
+let NERDTreeShowBookmarks=1
+" https://gist.github.com/scrooloose/4989844
+function! NERDTreeFindOrToggle()
+    if nerdtree#treeExistsForTab() && nerdtree#isTreeOpen()
+        NERDTreeToggle
+    else
+        NERDTreeFind
+    endif
+endfunction
+nnoremap <leader>d :call NERDTreeFindOrToggle()<CR>
+nnoremap <leader>b :NERDTreeFromBookmark 
 
 " surround
 
 " matchit (what are macros?)
+
+" CFML-10-Vim or whatever is best (need to experiment)
 
 " Moving lines around easier (org-mode style)
 Bundle 'tpope/vim-unimpaired'
@@ -142,7 +195,18 @@ nmap <S-Down> ]e
 vmap <S-Up> [egv
 vmap <S-Down> ]egv
 
-filetype plugin indent on
+
+if has("autocmd")
+  " This is probably in your .vimrc already. No need to duplicate!
+  filetype plugin indent on
+ 
+  " Set File type to 'text' for files ending in .txt
+  autocmd BufNewFile,BufRead *.txt setfiletype text
+ 
+  " Enable soft-wrapping for text files
+  autocmd FileType text,markdown,html setlocal wrap linebreak nolist autoindent
+endif
+
 
 " stuff to go through below
 " ----------------------------------------------------------------------------
